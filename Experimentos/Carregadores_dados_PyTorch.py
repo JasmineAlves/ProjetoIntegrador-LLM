@@ -90,6 +90,7 @@ for idx, (x, y) in enumerate(train_loader):
 torch.manual_seed(123)
 # Cria rede neural
 model = Multicamadas_PyTorch.NeuralNetwork(2, 2) # 2 entradas -> 2 saídas
+# Iniciamos asism, porque o toydataset tem 2 caracteristicas nas entradas e 2 rotulos de classificação (0, 1)
 
 # Atualizar os pesos da rede depois de calcular os gradientes
 optimizer = torch.optim.SGD(
@@ -123,10 +124,68 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         # LOGGING
+        # Batch: grupo de exemplos que ele recebe, nesse caso 2 por vez
+        # Epoch: uma volta completa pelos dados, o modelo passou por todos os exemplos de treinamento 1 vez (batch 1, 2 ,3), nesse caso ele faz isso 3 vezes
+        # Train loss: quanto o modelo está errando. Quando é igual a 0 quer dizer que o modelo está fazendo previsões extremamente próximas das respostas corretas,
+        # indica que naquele batch especifico o modelo acertou muito bem
         print(f"Epoch: {epoch+1:03d}/{num_epochs:03d}"
         f" | Batch {batch_idx:03d}/{len(train_loader):03d}"
         f" | Train Loss: {loss:.2f}")
 
  # Coloca o modelo em modo avaliação
+ # Assim os neurônios para de ser desligados aleatoriamente (dropout)
+ # Nesse modelo não temos dropout, então colocar o model.train() ou o model.eval() não faz diferença
+ # Mas coloca-se mesmo assim porque o modelo pode ser alterado futuramente
  model.eval()
- 
+ with torch.no_grad(): # Não precisa calcular gradientes agora, pois estamos apenas avaliando
+  outputs = model(X_train) # apassa todo o conjunto de treinamento pela rede, temos 5 exemplos e 2 caracteristicas cada,
+  # se o modelo for (2,2) a saída será [5,2], ou seja, 5 exemplos geram 2 valores de saída para cada um
+ print(outputs)
+
+torch.set_printoptions(sci_mode=False) # muda como os números são apresentados
+# dim=1 é que para cada linha transforme o logits das classes em probabilidades
+probas = torch.softmax(outputs, dim=1) # Transforma os logits em probabilidade, por exemplo 2.31 vira 0.971 (97.1%)
+# as probabilidades de cada linha somadas dão aproximadamente 1.
+print(probas)
+
+# Transforma as probabilidades em previsão de classe, pega os valores de softmax()
+# argmax() diz a posição de maior valor (coluna 0 ou 1)
+predictions = torch.argmax(probas, dim=1)
+print(predictions) # previsão final do modelo
+
+# Transforma as probabilidades em previsão de classe, pega os valores de logits, que dão o mesmo que se pegar os valores de probabilidade
+predictions = torch.argmax(outputs, dim=1)
+print(predictions)
+
+# Compara precisão do modelo e respostas corretas, gera tensor de True ou False
+predictions == y_train
+# Soma os True e diz quantos exemplos o modelo acertou.
+torch.sum(predictions == y_train)
+
+# Função para calular a previsão do modelo
+# Pode ser aplicada para o test set também
+def compute_accuracy(model, dataloader):
+   model = model.eval()
+   correct = 0.0
+   total_examples = 0
+
+   for idx, (features, labels) in enumerate(dataloader):
+      with torch.no_grad():
+       logits = model(features)
+
+      predictions = torch.argmax(logits, dim=1)
+      compare = labels == predictions # Compara o modelo (tensor true/false)
+      correct += torch.sum(compare) # soma os true
+      total_examples += len(compare)
+      
+   return (correct / total_examples).item()  # fração da predição correta geral, valor entre 0 e 1, item() retorna o valor do tensor em float
+
+print(compute_accuracy(model, train_loader))
+
+# Salvando o modelo
+torch.save(model.state_dict(), "model.pth")
+
+# Carregando o modelo salvo no disco
+model = Multicamadas_PyTorch.NeuralNetwork(2, 2)
+model.load_state_dict(torch.load("model.pth"))
+
