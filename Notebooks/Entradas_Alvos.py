@@ -1,14 +1,14 @@
 # Amostragem de dados com janela deslizante
 import torch
 from torch.utils.data import Dataset, DataLoader
-import Notebooks.BPE as BPE
+import BPE
 import tiktoken
 
 # Cria os pares de entradas-alvo ---------------------------------------------------------------------------------------------------------------
 # Utiliza o conceito de janela deslizante
 
 # Tokenizar todo o texto usando o BPE tokenizer
-with open("Experimentos/the-verdict.txt", "r", encoding="utf-8") as f:
+with open("Notebooks/the-verdict.txt", "r", encoding="utf-8") as f:
  raw_text = f.read()
 
 enc_text = BPE.tokenizer.encode(raw_text)
@@ -84,7 +84,7 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256,
         return dataloader
 
 # Textar o dataloader com um batch de tamanho 1 em uma LLM com contexto de tamanho 4
-with open("the-verdict.txt", "r", encoding="utf-8") as f:
+with open("Notebooks/the-verdict.txt", "r", encoding="utf-8") as f:
   raw_text = f.read()
 dataloader = create_dataloader_v1(
   raw_text, batch_size=1, max_length=4, stride=1, shuffle=False)
