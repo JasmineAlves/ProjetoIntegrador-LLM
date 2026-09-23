@@ -1,9 +1,9 @@
 # self-attention com pesos treináveis para bons vetores de contexto
 import torch
 # Importando a classe da self-attention generalizada
-from self_attention_class import SelfAttention_v1
+from .self_attention_class import SelfAttention_v1
 # Importando a classe da self-attention generalizada mais eficiente
-from self_attention_class import SelfAttention_v2
+from .self_attention_class import SelfAttention_v2
 
 inputs = torch.tensor(
     [
