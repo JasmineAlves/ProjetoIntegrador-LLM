@@ -43,7 +43,7 @@ out = ffn(x)
 print(out.shape)
 
 
-# Comparação gráfica da GELU com a ReLU
+# Comparação gráfica da GELU com a ReLU ----------------------------------------------------------------------------------------
 # Cria as duas funções
 gelu, relu = GELU(), nn.ReLU()
 # Cria os valores de entrada, 100 números com valores entre -3 e 3
