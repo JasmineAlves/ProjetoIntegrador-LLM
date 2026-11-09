@@ -1,16 +1,7 @@
 import time
 import torch
-import sys
-from pathlib import Path
-# Localiza a pasta raiz do projeto para conseguir importar os módulos de outras pastas
-raiz = Path(__file__).resolve().parents[2]
-# Adiciona o caminho onde estão os arquivos da SPRINT_4 para o Python conseguir achá-los
-sys.path.insert(
-    0,
-    str(raiz / "SPRINT_4" / "Notebooks")
-)
-import cfg
-import GPT_model
+from SPRINT_4.Notebooks.cfg import GPT_CONFIG_124M
+from SPRINT_4.Notebooks.GPT_model import GPTModel
 from experimentos_reg import salvar_resultado
 
 torch.manual_seed(123)
@@ -19,13 +10,13 @@ torch.manual_seed(123)
 # Testar o modelo alterando o número de blocos para 2, 4 e 6
 for quantidade_blocos in [2, 4, 6]:
     # Cria uma cópia das configurações padrão 
-    config = cfg.GPT_CONFIG_124M.copy()
+    config = GPT_CONFIG_124M.copy()
     
     # Altera o número de camadas (blocos transformers) para o tste atual
     config["n_layers"] = quantidade_blocos
 
     # Inicializa o modelo GPT com a nova configuração de blocos
-    model = GPT_model.GPTModel(config)
+    model = GPTModel(config)
     
     # Coloca o modelo em modo de avaliação
     model.eval()

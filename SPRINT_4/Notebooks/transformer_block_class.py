@@ -1,24 +1,9 @@
 import torch
 import torch.nn as nn
-import sys
-from pathlib import Path
-
-import torch
-import torch.nn as nn
-
-# Localiza a pasta raiz que contém SPRINT 3 e SPRINT 4
-raiz = Path(__file__).resolve().parents[2]
-
-# Adiciona a pasta onde está a classe MultiHeadAttention
-sys.path.insert(
-    0,
-    str(raiz / "SPRINT_3" / "Notebooks")
-)
-
-from multi_head_attention_class import MultiHeadAttention
-from GELU_class import FeedForward
-from normalization_class import LayerNorm
-from cfg import GPT_CONFIG_124M
+from SPRINT_3.Notebooks.multi_head_attention_class import MultiHeadAttention
+from SPRINT_4.Notebooks.GELU_class import FeedForward
+from SPRINT_4.Notebooks.normalization_class import LayerNorm
+from SPRINT_4.Notebooks.cfg import GPT_CONFIG_124M
 
 
 class TransformerBlock(nn.Module):

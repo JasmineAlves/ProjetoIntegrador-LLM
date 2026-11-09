@@ -1,8 +1,8 @@
 import torch
-from SPRINT_4.Notebooks import GPT_model
+from SPRINT_4.Notebooks.GPT_model import GPTModel
 
 GPT_CONFIG_124M = {
-    "vocab_size": 5025,
+    "vocab_size": 50257,
     # Contexto mais curto para reduzir demanda computacional do modelo de treinamento e ser possivel rodar em um pc comum
     # Mas depois do treinamento vamos mudar para 1024 para os pesos já treinados
     "context_length":  256,
@@ -13,5 +13,5 @@ GPT_CONFIG_124M = {
     "qkv_bias": False
 }
 torch.manual_seed(123)
-model = GPT_model.GPTModel(GPT_CONFIG_124M)
+model = GPTModel(GPT_CONFIG_124M)
 model.eval()

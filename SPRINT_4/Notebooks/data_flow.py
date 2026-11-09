@@ -1,8 +1,8 @@
 # Análise de com o fluxo de dados entra e saí de um modelo GPT
 import tiktoken # transforma textos em token
 import torch
-import dummy_gpt_model
-import cfg
+from SPRINT_4.Notebooks.dummy_gpt_model import DummyGPTModel
+from SPRINT_4.Notebooks.cfg import GPT_CONFIG_124M
 
 # Carrega o tokenizador, divide o texto em tokens e atribui ID para cada token
 # Uma palavra pode virar um único token ou ser dividida em partes menores, depende do vocabulário e das regras de tokenização
@@ -27,7 +27,7 @@ print(batch)
 # Semente aleatória na inicialização usada para tornar certos resultados reproduzíveis
 torch.manual_seed(123)
 # Chamando o dummy e as configurações do gpt definidas
-model = dummy_gpt_model.DummyGPTModel(cfg.GPT_CONFIG_124M)
+model = DummyGPTModel(GPT_CONFIG_124M)
 # Chama internamente o metodo forward do modelo que processa o lote pelas camadas definidas na classe
 logits = model(batch)
 # São pontuações numéricas que o modelo produz para cada token possível do vocabulário

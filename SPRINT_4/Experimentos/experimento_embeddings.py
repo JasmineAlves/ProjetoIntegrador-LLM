@@ -1,16 +1,7 @@
 import time
 import torch
-import sys
-from pathlib import Path
-# Localiza a pasta raiz do projeto para permitir importações entre pastas diferentes
-raiz = Path(__file__).resolve().parents[2]
-# Adiciona o diretório da SPRINT_4 ao caminho de busca do Python
-sys.path.insert(
-    0,
-    str(raiz / "SPRINT_4" / "Notebooks")
-)
-from cfg import GPT_CONFIG_124M
-from GPT_model import GPTModel
+from SPRINT_4.Notebooks.cfg import GPT_CONFIG_124M
+from SPRINT_4.Notebooks.GPT_model import GPTModel
 from experimentos_reg import salvar_resultado
 
 # Define uma semente fixa para garantir que os números aleatórios sejam reprodutíveis

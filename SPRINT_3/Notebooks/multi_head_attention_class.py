@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from causal_attention_class import CausalAttention
+from SPRINT_3.Notebooks.causal_attention_class import CausalAttention
 
 # Essa classe processa sequencialmente no método forward as heads
 class MultiHeadAttentionWrapper(nn.Module):

@@ -1,5 +1,5 @@
 import torch
-import Multicamadas_PyTorch
+from SPRINT_1.Notebooks.Multicamadas_PyTorch import NeuralNetwork
 from torch.utils.data import Dataset # Classe dataset
 from torch.utils.data import DataLoader # Classe de dataloader
 import torch.nn.functional as F
@@ -89,7 +89,7 @@ for idx, (x, y) in enumerate(train_loader):
 # Números aleatórios sejam reproduziveis (pesos)
 torch.manual_seed(123)
 # Cria rede neural
-model = Multicamadas_PyTorch.NeuralNetwork(2, 2) # 2 entradas -> 2 saídas
+model = NeuralNetwork(2, 2) # 2 entradas -> 2 saídas
 # Iniciamos asism, porque o toydataset tem 2 caracteristicas nas entradas e 2 rotulos de classificação (0, 1)
 
 # Atualizar os pesos da rede depois de calcular os gradientes
@@ -186,6 +186,6 @@ print(compute_accuracy(model, train_loader))
 torch.save(model.state_dict(), "model.pth")
 
 # Carregando o modelo salvo no disco
-model = Multicamadas_PyTorch.NeuralNetwork(2, 2)
+model = NeuralNetwork(2, 2)
 model.load_state_dict(torch.load("model.pth"))
 

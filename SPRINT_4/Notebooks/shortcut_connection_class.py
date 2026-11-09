@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from GELU_class import GELU
+from SPRINT_4.Notebooks.GELU_class import GELU
 
 # Implementa uma rede neural profunda com 5 camadas
 # Cada um com camada linear e ativação GELU

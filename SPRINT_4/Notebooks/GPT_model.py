@@ -1,20 +1,10 @@
 import torch
 import torch.nn as nn
-from transformer_block_class import TransformerBlock
-from normalization_class import LayerNorm
-from cfg import GPT_CONFIG_124M
-import data_flow
-import sys
-from pathlib import Path
-
-# Localiza a pasta raiz que contém SPRINT 2 e SPRINT 4
-raiz = Path(__file__).resolve().parents[2]
-# Adiciona a pasta onde está o BPE
-sys.path.insert(
-    0,
-    str(raiz / "SPRINT_2" / "Notebooks")
-)
-import BPE
+from SPRINT_4.Notebooks.transformer_block_class import TransformerBlock
+from SPRINT_4.Notebooks.normalization_class import LayerNorm
+from SPRINT_4.Notebooks.cfg import GPT_CONFIG_124M
+from SPRINT_4.Notebooks.data_flow import batch
+from SPRINT_2.Notebooks.BPE import tokenizer
 
 # Implementação da arquitetura do modelo GPT
 class GPTModel(nn.Module):
@@ -52,9 +42,9 @@ class GPTModel(nn.Module):
 
 torch.manual_seed(123)
 model = GPTModel(GPT_CONFIG_124M)
-out = model(data_flow.batch)
+out = model(batch)
 # Tokens ID do text1 e text2
-print("Input batch:\n", data_flow.batch)
+print("Input batch:\n", batch)
 # shape [2,4,50257] -> [quant texto de entrada, quant tokens por texto, tamanho do vocabulario]
 print("\nOutput shape:", out.shape)
 print(out)
@@ -98,7 +88,7 @@ def generate_text_simple(model, idx, max_new_tokens, context_size):
 
 # Codificar o contexto de entrada em token IDs
 start_context = "Hello, I am"
-encoded = BPE.tokenizer.encode(start_context)
+encoded = tokenizer.encode(start_context)
 print("encoded:", encoded)
 encoded_tensor = torch.tensor(encoded).unsqueeze(0)
 print("encoded_tensor.shape:", encoded_tensor.shape)
@@ -117,7 +107,7 @@ print("Output:", out)
 print("Output length:", len(out[0]))
 
 # Decodificar token IDs para texto
-decoded_text = BPE.tokenizer.decode(out.squeeze(0).tolist())
+decoded_text = tokenizer.decode(out.squeeze(0).tolist())
 # Saí palavras sem sentido pois ainda não treinamos o modelo
 print(decoded_text)
 

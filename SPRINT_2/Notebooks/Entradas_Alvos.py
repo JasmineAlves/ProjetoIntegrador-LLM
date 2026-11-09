@@ -1,17 +1,17 @@
 # Amostragem de dados com janela deslizante
 import torch
 from torch.utils.data import Dataset, DataLoader
-import BPE
+from SPRINT_2.Notebooks.BPE import tokenizer
 import tiktoken
 
 # Cria os pares de entradas-alvo ---------------------------------------------------------------------------------------------------------------
 # Utiliza o conceito de janela deslizante
 
 # Tokenizar todo o texto usando o BPE tokenizer
-with open("Notebooks/the-verdict.txt", "r", encoding="utf-8") as f:
+with open("SPRINT_2/Notebooks/the-verdict.txt", "r", encoding="utf-8") as f:
  raw_text = f.read()
 
-enc_text = BPE.tokenizer.encode(raw_text)
+enc_text = tokenizer.encode(raw_text)
 print(len(enc_text)) # Número total de tokens no set de treinamento
 
 # Remove os 50 primeiros tokens apenas por demonstração
@@ -36,7 +36,7 @@ for i in range(1, context_size+1):
 for i in range(1, context_size+1):
  context = enc_sample[:i]
  desired = enc_sample[i]
- print(BPE.tokenizer.decode(context), "---->", BPE.tokenizer.decode([desired])) # EX: and ---------> established
+ print(tokenizer.decode(context), "---->", tokenizer.decode([desired])) # EX: and ---------> established
 
 # Implementa um carregador de dados no dataset de entrada e retorna as entradas e alvos como tensores (arrays multidimensionais) ----------------------------
 
@@ -84,7 +84,7 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256,
         return dataloader
 
 # Textar o dataloader com um batch de tamanho 1 em uma LLM com contexto de tamanho 4
-with open("Notebooks/the-verdict.txt", "r", encoding="utf-8") as f:
+with open("SPRINT_2/Notebooks/the-verdict.txt", "r", encoding="utf-8") as f:
   raw_text = f.read()
 dataloader = create_dataloader_v1(
   raw_text, batch_size=1, max_length=4, stride=1, shuffle=False)

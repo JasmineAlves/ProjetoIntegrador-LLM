@@ -1,12 +1,6 @@
-import os
-import sys
-
-# Adiciona a pasta raiz do projeto ao caminho de importações do Python
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 import matplotlib.pyplot as plt
 import torch
-from Notebooks.multi_head_attention_class import MultiHeadAttention
+from SPRINT_3.Notebooks import multi_head_attention_class
 
 # 8 tokens, cada token possui 8 números
 inputs = torch.tensor([
@@ -25,7 +19,7 @@ batch = inputs.unsqueeze(0)
 
 # Criação do modelo
 torch.manual_seed(123)
-mha = MultiHeadAttention(
+mha = multi_head_attention_class.MultiHeadAttention(
     d_in=8, d_out=8, context_length=8, dropout=0.0, num_heads=4
 )
 

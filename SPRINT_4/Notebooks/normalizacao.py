@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from normalization_class import LayerNorm
+from SPRINT_4.Notebooks.normalization_class import LayerNorm
 
 # Implementa uma camada de rede neural com 5 entradas e 6 saídas aplicada em 2 exemplos de entrada
 torch.manual_seed(123)

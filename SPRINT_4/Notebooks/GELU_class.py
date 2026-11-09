@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import cfg
+from SPRINT_4.Notebooks.cfg import GPT_CONFIG_124M
 import matplotlib.pyplot as plt
 
 # Implementação da função de ativação GELU
@@ -35,7 +35,7 @@ class FeedForward(nn.Module):
        return self.layers(x)
 
 # Inicializa um feedforward módulo, com token embedding de 768
-ffn = FeedForward(cfg.GPT_CONFIG_124M)
+ffn = FeedForward(GPT_CONFIG_124M)
 # Coloco com 2 amostras e 3 tokens cada
 x = torch.rand(2, 3, 768)
 out = ffn(x)
