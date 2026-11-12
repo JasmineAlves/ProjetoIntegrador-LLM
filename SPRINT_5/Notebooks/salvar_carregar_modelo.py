@@ -1,7 +1,7 @@
 import torch
 from SPRINT_4.Notebooks.GPT_model import model
 from SPRINT_5.Notebooks.inicializacao_modelo import GPTModel, GPT_CONFIG_124M
-from SPRINT_5.Notebooks.pretrainamento import device
+from SPRINT_5.Notebooks.pretreinamento import device
 from SPRINT_5.Notebooks.fluxo_treinamento import optimizer
 
 # SALVAR

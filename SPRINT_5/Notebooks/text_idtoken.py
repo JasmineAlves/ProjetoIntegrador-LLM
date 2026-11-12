@@ -2,7 +2,7 @@ import tiktoken  # Transforma texto em numeros e vice-versa
 import torch
 from SPRINT_4.Notebooks.GPT_model import generate_text_simple
 from SPRINT_4.Notebooks.GPT_model import model
-from inicializacao_modelo import GPT_CONFIG_124M  # Configuraçoes dos parametros
+from SPRINT_5.Notebooks.inicializacao_modelo import GPT_CONFIG_124M  # Configuraçoes dos parametros
 
 # CODIFICADOR
 # Recebe texto comum e um tokenizador

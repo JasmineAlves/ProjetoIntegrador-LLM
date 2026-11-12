@@ -2,7 +2,7 @@ import torch
 from SPRINT_5.Notebooks.inicializacao_modelo import GPTModel, GPT_CONFIG_124M
 from src.GPT2_config import model_configs, params
 from src.carregador_pesos import load_weights_into_gpt
-from SPRINT_5.Notebooks.pretrainamento import device
+from SPRINT_5.Notebooks.pretreinamento import device
 from SPRINT_5.Notebooks.text_idtoken import text_to_token_ids, token_ids_to_text
 from SPRINT_2.Notebooks.BPE import tokenizer
 from SPRINT_5.Notebooks.geracao_texto import generate

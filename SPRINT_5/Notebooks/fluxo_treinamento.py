@@ -1,13 +1,13 @@
 import torch
-from SPRINT_5.Notebooks.pretrainamento import calc_loss_batch
-from SPRINT_5.Notebooks.pretrainamento import calc_loss_loader
+from SPRINT_5.Notebooks.pretreinamento import calc_loss_batch
+from SPRINT_5.Notebooks.pretreinamento import calc_loss_loader
 from SPRINT_4.Notebooks.GPT_model import generate_text_simple
 from SPRINT_5.Notebooks.text_idtoken import text_to_token_ids
 from SPRINT_5.Notebooks.text_idtoken import token_ids_to_text
 from SPRINT_2.Notebooks.BPE import tokenizer
 from SPRINT_4.Notebooks.GPT_model import model
 from SPRINT_5.Notebooks.inicializacao_modelo import GPTModel, GPT_CONFIG_124M
-from SPRINT_5.Notebooks.pretrainamento import val_loader, train_loader, device
+from SPRINT_5.Notebooks.pretreinamento import val_loader, train_loader, device
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
@@ -120,7 +120,8 @@ def generate_and_print_sample(model, tokenizer, device, start_context):
 
 # Prepara o modelo para começar a aprender
 # Torna resultados reproduziveis
-torch.manual_seed(123)
+# Comentado para por realizar experimentos com diferentes números de epochs
+"""torch.manual_seed(123)
 # Cria modelo GPT com as configurações selecionadas
 model = GPTModel(GPT_CONFIG_124M)
 # Modelo fica do dispositivo correto (CPU/GPU)
@@ -140,7 +141,7 @@ train_losses, val_losses, tokens_seen = train_model_simple(
     model, train_loader, val_loader, optimizer, device,
     num_epochs=num_epochs, eval_freq=5, eval_iter=5,
     start_context="Every effort moves you", tokenizer=tokenizer
-)
+)"""
 
 # OBS: Taxa muito alta pode fazer o treinamento ficar instável. Taxa muito baixa pode deixar o aprendizado muito lento
 # OBS: Loss do treinamento melhor muito (de 9.781 para 0.391) conseguindo gerar no final do treinamento texto gramaticamente correto
@@ -162,8 +163,28 @@ def plot_losses(epochs_seen, tokens_seen, train_losses, val_losses):
     ax2.set_xlabel("Tokens seen")
     fig.tight_layout()
     plt.show()
-epochs_tensor = torch.linspace(0, num_epochs, len(train_losses))
-plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
+
+# Coloque este IF antes do código que inicia o treino
+if __name__ == "__main__":
+    # Prepara o modelo para começar a aprender
+    torch.manual_seed(123)
+    model = GPTModel(GPT_CONFIG_124M)
+    model.to(device)
+    
+    optimizer = torch.optim.AdamW(
+        model.parameters(),
+        lr=0.0004, weight_decay=0.1
+    )
+    
+    num_epochs = 10
+    train_losses, val_losses, tokens_seen = train_model_simple(
+        model, train_loader, val_loader, optimizer, device,
+        num_epochs=num_epochs, eval_freq=5, eval_iter=5,
+        start_context="Every effort moves you", tokenizer=tokenizer
+    )
+    
+    epochs_tensor = torch.linspace(0, num_epochs, len(train_losses))
+    plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
 
 # OBS: É possivel observar no gráfico que tanto as losses de treinamento quanto de validação começam
 # a melhorar da epoch 1, mas começam a divergir na epoch 2, loss de validação é muito maior que a de treinamento
